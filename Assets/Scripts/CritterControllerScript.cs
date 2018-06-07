@@ -6,9 +6,7 @@ public class CritterControllerScript : MonoBehaviour, Interactable {
 	Rigidbody2D rigidBody2D;
 	public Rigidbody2D playerRigidBody;
 
-	public float maxSpeed = 1f;
-	public bool following = false;
-
+	bool following = false;
 	bool facingRight = true;
 
 	void Start () {
@@ -17,7 +15,7 @@ public class CritterControllerScript : MonoBehaviour, Interactable {
 
 	void FixedUpdate () {
 		float move = moveSpeed();
-		rigidBody2D.velocity = new Vector2(move * maxSpeed, rigidBody2D.velocity.y);
+		rigidBody2D.velocity = new Vector2(move, rigidBody2D.velocity.y);
 
 		if ((move > 0 && !facingRight) || (move < 0 && facingRight))
 			Flip();
@@ -32,10 +30,10 @@ public class CritterControllerScript : MonoBehaviour, Interactable {
 
 	float moveSpeed() {
 		if (following) {
-			if (playerRigidBody.position.x + 1 > rigidBody2D.position.x) {
-				return 0.2f;
-			} else if (playerRigidBody.position.x - 1 < rigidBody2D.position.x) {
-				return -0.2f;
+			if (playerRigidBody.position.x - rigidBody2D.position.x >= 1) {
+			  return 1f;
+			} else if (playerRigidBody.position.x - rigidBody2D.position.x <= -1) {
+				return -1f;
 			} else {
 				return 0;
 			}
